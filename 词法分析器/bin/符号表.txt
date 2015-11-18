@@ -1,0 +1,24 @@
+<if>
+<then>
+<else>
+<while>
+<do>
+<begin>
+<end>
+<nil>
+<and>
+<or>
+<not>
+<true>
+<false>
+<integer>
+<char>
+<real>
+<boolean>
+<string>
+<id, next>
+<id, x>
+<id, y>
+<id, xy>
+<id, z>
+<id, zz>

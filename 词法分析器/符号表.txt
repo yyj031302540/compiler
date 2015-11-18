@@ -1,0 +1,18 @@
+<id, sd>
+<string>
+<continue>
+<true>
+<int>
+<break>
+<false>
+<id, kg>
+<id, fgdgf>
+<bool>
+<if>
+<while>
+<do>
+<return>
+<else>
+<id, fdslkgfdffd>
+<char>
+<float>

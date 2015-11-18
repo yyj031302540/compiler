@@ -1,0 +1,4 @@
+WHILE (next<>NIL) 
+--index
+ DO BEGIN x:=6; Y:=xy+z END;
+ zz:=111111111111
