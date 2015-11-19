@@ -1,24 +1,48 @@
-<if>
-<then>
-<else>
-<while>
-<do>
-<begin>
-<end>
-<nil>
 <and>
-<or>
+<array>
+<begin>
+<case>
+<const>
+<div>
+<do>
+<downto>
+<else>
+<end>
+<file>
+<for>
+<forward>
+<function>
+<goto>
+<if>
+<in>
+<label>
+<mod>
+<nil>
 <not>
+<of>
+<or>
+<packed>
+<procedure>
+<program>
+<record>
+<repeat>
+<set>
+<then>
+<to>
+<type>
+<until>
+<var>
+<while>
+<with>
 <true>
 <false>
 <integer>
-<char>
+<longint>
+<byte>
 <real>
 <boolean>
 <string>
-<id, next>
-<id, x>
-<id, y>
-<id, xy>
-<id, z>
-<id, zz>
+<id, exp>
+<id, pi>
+<id, n>
+<id, writeln>

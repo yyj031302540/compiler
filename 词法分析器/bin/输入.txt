@@ -1,4 +1,13 @@
-WHILE (next<>NIL) 
---index
- DO BEGIN x:=6; Y:=xy+z END;
- zz:=111111111111
+PROGRAM exp;
+var
+  pi:real;
+  n:longint;
+begin
+  pi:=0;
+  for n:=1 to 10000 do
+  begin
+    pi:=pi+1/(4*n-3)-1/(4*n-1);
+  end;
+  pi:=pi*4;
+  writeln('p1=',pi);
+end;
