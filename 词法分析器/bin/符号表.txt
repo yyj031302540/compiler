@@ -47,4 +47,4 @@
 <dword>
 <boolean>
 <string>
-<id, num>
+<id, write>

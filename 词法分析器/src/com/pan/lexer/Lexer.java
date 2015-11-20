@@ -243,21 +243,31 @@ public class Lexer {
 			}
 		case '\'':
 			readch();
+			boolean isCrossLine = false;
 			if (Character.isLetter(peek)) {
 				StringBuffer stringBuffer = new StringBuffer();
+				stringBuffer.append("\'");
 				for (;; readch()) {
-					if (Character.isLetterOrDigit(peek)) {
+					if (peek != '\'' && peek != '\n') {
 						stringBuffer.append(peek);
 						continue;
 					}
 
 					if (peek == '\n') {
-						System.out.println("error：string cross line ,line:" + line);
-						return null;
+						isCrossLine = true;
 					}
 
-					// 这里感觉有bug! <- 的确有bug！
-					if (peek == '\'') {
+					while (peek != '\'' && peek != 0xffff) {
+						readch();
+					}
+
+					if (isCrossLine) {
+						System.out.println("error：string cross line or there is not a right (\') to match,"
+								+ "line:" + line);
+						peek = ' ';
+						return null;
+					} else {
+						stringBuffer.append("\'");
 						String string = stringBuffer.toString();
 						Word word = new Word(string, Tag.STRING);
 						words.put(string, word);

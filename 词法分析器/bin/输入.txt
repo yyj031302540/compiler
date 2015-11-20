@@ -1,1 +1,3 @@
-num := 001x00;
+Write('You are very 
+hand
+same :))
