@@ -1,15 +1,11 @@
 program ex;
- const s='abcdefg';
-var 
- i:integer;
- r:real;
- c:char;b:boolean;
-begin
- i:=1234;r:=1234.5678;
- c:='#';b:=true;
- writeln(i,i:6,i:3);
- writeln(r,r:12:5,r:8:5);
- writeln(c,c:5);
- writeln(s,s:10,s:5);
- writeln(b,b:5,b:3);
-end.
+  var
+    x:real;y:integer;
+  begin
+   wrtie('Input x:');readln(x);
+   if x>=0 then 
+    if x>0 then y:=1
+    else y:=0
+   else y=-1;
+   writeln('x=',x:6:2,'y=',y);
+  end.

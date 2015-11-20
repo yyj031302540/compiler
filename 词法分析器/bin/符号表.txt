@@ -48,10 +48,8 @@
 <boolean>
 <string>
 <id, ex>
-<id, s>
-<id, i>
-<id, r>
-<id, c>
-<id, char>
-<id, b>
+<id, x>
+<id, y>
+<id, wrtie>
+<id, readln>
 <id, writeln>

@@ -107,7 +107,7 @@ public class Lexer {
 		if (peek != c) {
 			return false;
 		} else {
-			peek = ' ';
+			readch();
 			return true;
 		}
 	}
@@ -268,10 +268,8 @@ public class Lexer {
 		case '-':
 			if (leftPeek == '+' || leftPeek == '/' || leftPeek == '*' || leftPeek == '-' || leftPeek == '=') {
 				sign = -1;
-				for (;; readch()) {
-					if (peek != ' ') {
-						break;
-					}
+				while (peek == ' ') {
+					readch();
 				}
 			} else {
 				sign = 1;
@@ -293,7 +291,7 @@ public class Lexer {
 
 			// 提取数字（读取的时候只能是字符，要转换成数字）
 			if (Character.isDigit(peek)) {
-				stringToDigit();
+				return stringToDigit();
 			} else {
 				// 如果不是数字
 				if (sign == -1)
@@ -307,7 +305,7 @@ public class Lexer {
 		// 这里整个switch结束-------------------------------------------------------
 
 		if (Character.isDigit(peek)) {
-			stringToDigit();
+			return stringToDigit();
 		}
 
 		if (Character.isLetter(peek)) {
