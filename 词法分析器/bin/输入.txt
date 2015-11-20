@@ -1,3 +1,14 @@
-Write('You are very 
-hand
-same :))
+  program ex;
+  var
+    x:real;
+    y:integer;
+  begin 
+
+    wrtie('Input 
+	x:');readln(x);
+    if x>0 then y:=1
+     else
+      if x=0 then y:=0
+      else y:=-1;
+    writeln('x=',x:6:2,'y=',y);
+  end.

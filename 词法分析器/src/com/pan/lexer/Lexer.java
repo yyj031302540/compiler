@@ -112,6 +112,13 @@ public class Lexer {
 		}
 	}
 
+	// 如果是字符串，不能转换为小写
+	void readch(boolean isString) throws IOException {
+		if (isString) {
+			peek = (char) reader.read();
+		}
+	}
+
 	// 用来处理碰到数字的情况
 	public Token stringToDigit() throws IOException {
 		int intResult = 0;
@@ -125,7 +132,7 @@ public class Lexer {
 					intScale = 36;
 					readch();
 				} else {
-					System.out.println("error：illegal identifier , line:" + line);
+					System.out.println("error：illegal identifier, line: " + line);
 				}
 
 			}
@@ -149,7 +156,7 @@ public class Lexer {
 			}
 
 			if (isOverflow) {
-				System.out.println("error:integer overflow! line:" + line);
+				System.out.println("error:integer overflow, line: " + line);
 				return null;
 			}
 			intResult = intResult * sign;
@@ -242,38 +249,42 @@ public class Lexer {
 				return new Token(':');
 			}
 		case '\'':
-			readch();
+			boolean isString = true;
+			readch(isString);
 			boolean isCrossLine = false;
 			if (Character.isLetter(peek)) {
 				StringBuffer stringBuffer = new StringBuffer();
 				stringBuffer.append("\'");
-				for (;; readch()) {
+				for (;; readch(isString)) {
+					// 如果不结束或者跨行，则继续
 					if (peek != '\'' && peek != '\n') {
 						stringBuffer.append(peek);
 						continue;
-					}
-
-					if (peek == '\n') {
-						isCrossLine = true;
-					}
-
-					while (peek != '\'' && peek != 0xffff) {
-						readch();
-					}
-
-					if (isCrossLine) {
-						System.out.println("error：string cross line or there is not a right (\') to match,"
-								+ "line:" + line);
-						peek = ' ';
-						return null;
-					} else {
+					} else if (peek == '\'') {
+						// 字符串结束，返回字符串
 						stringBuffer.append("\'");
 						String string = stringBuffer.toString();
 						Word word = new Word(string, Tag.STRING);
 						words.put(string, word);
 						readch();
 						return word;
+					} else if (peek == '\n') {
+						// 跨行了
+						isCrossLine = true;
 					}
+					
+					// 跨行但没结束，则读到字符串结束，或者文件结尾为止
+					while (peek != '\'' && peek != 0xffff) {
+						readch(isString);
+					}
+
+					if (isCrossLine) {
+						System.out.println(
+								"error：string cross line or there is not a right (\') to match, line: " + line);
+						peek = ' ';
+						return null;
+					}
+
 				}
 			} else
 				return new Token('\'');
@@ -309,7 +320,7 @@ public class Lexer {
 				if (sign == -1)
 					return new Token('-');
 				else {
-					System.out.println("error:illegal \'-\' 行号：" + line);
+					System.out.println("error:illegal \'-\', line: " + line);
 					return null;
 				}
 			}
@@ -332,10 +343,10 @@ public class Lexer {
 				return word;
 			}
 			if (string.length() > 32) {
-				System.out.println("error: identifier is too long !  line:" + line);
+				System.out.println("error: identifier is too long, line: " + line);
 				return null;
 			} else if (string.length() > 8) {
-				System.out.println("warnning:identifier's length is not available !  line:" + line);
+				System.out.println("warnning:identifier's length is not available, line: " + line);
 			}
 			word = new Word(string, Tag.ID);
 			words.put(string, word);
