@@ -47,9 +47,3 @@
 <dword>
 <boolean>
 <string>
-<id, ex>
-<id, x>
-<id, y>
-<id, wrtie>
-<id, readln>
-<id, writeln>

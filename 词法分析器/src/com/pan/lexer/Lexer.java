@@ -256,6 +256,7 @@ public class Lexer {
 				StringBuffer stringBuffer = new StringBuffer();
 				stringBuffer.append("\'");
 				for (;; readch(isString)) {
+
 					// 如果不结束或者跨行，则继续
 					if (peek != '\'' && peek != '\n') {
 						stringBuffer.append(peek);
@@ -272,7 +273,7 @@ public class Lexer {
 						// 跨行了
 						isCrossLine = true;
 					}
-					
+
 					// 跨行但没结束，则读到字符串结束，或者文件结尾为止
 					while (peek != '\'' && peek != 0xffff) {
 						readch(isString);
@@ -300,15 +301,9 @@ public class Lexer {
 
 			// 如果接下去的也是"-"，那么是注释
 			if (readch('-')) {
-				readch();
-				StringBuffer buffer = new StringBuffer();
-				for (;; readch()) {
-					if (peek != '\n' && peek != '\r') {
-						buffer.append(peek);
-						continue;
-					} else
-						break;
-				}
+				do {
+					readch();
+				} while (peek != '\n' && peek != '\r');
 				return null;
 			}
 
