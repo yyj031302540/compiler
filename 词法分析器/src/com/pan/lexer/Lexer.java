@@ -90,11 +90,10 @@ public class Lexer {
 
 	// 读取一个字符
 	void readch() throws IOException {
-		// 排除空白符，这里有问题！" -   3 "会读取成什么？
+		// 排除空白符
 		if (peek != ' ' && peek != '\t' && peek != '\n') {
 			leftPeek = peek;
 		}
-		// 读取一个字符
 		peek = (char) reader.read();
 		// 转换为小写
 		if (peek >= 'A' && peek <= 'Z') {
@@ -136,10 +135,10 @@ public class Lexer {
 		if (peek != '.') {
 			intResult = intResult * sign;
 			// 数组是否越界
-			boolean isOutflow = false;
+			boolean isOverflow = false;
 			if (sign > 0) {
 				if (intResult < 0) {
-					isOutflow = true;
+					isOverflow = true;
 				} else {
 					int count = 0, temp = intResult;
 
@@ -147,11 +146,11 @@ public class Lexer {
 					for (; temp > 0; count++)
 						temp = temp >> 1;
 					if (count > 24)
-						isOutflow = true;
+						isOverflow = true;
 				}
 			}
-			if (sign > 0 && isOutflow) {
-				System.out.println("error:integer outflow! 行号：" + line);
+			if (sign > 0 && isOverflow) {
+				System.out.println("error:integer overflow! 行号：" + line);
 				return null;
 			}
 			return new Num(intResult);
@@ -174,12 +173,15 @@ public class Lexer {
 	// 读取有效字符
 	public Token scan() throws IOException {
 		for (;; readch()) {
-			if (peek == ' ' || peek == '\t')
+			if (peek == 0xffff)
+				return null;
+			if (peek == ' ' || peek == '\t' || peek == '\r') {
 				continue;
-			else if (peek == '\n')
+			} else if (peek == '\n') {
 				line += 1;
-			else
+			} else {
 				break;
+			}
 		}
 
 		switch (peek) {
@@ -340,7 +342,8 @@ public class Lexer {
 	public void saveSymbolsTable() throws IOException {
 		FileWriter writer = new FileWriter(".\\bin\\符号表.txt");
 		/* 写入文件 */
-		for (int i = 0; i < listWord.size(); ++i) {
+		int size = listWord.size();
+		for (int i = 0; i < size; ++i) {
 			String tok = (String) listWord.get(i);
 			writer.write(tok + "\r\n");
 		}

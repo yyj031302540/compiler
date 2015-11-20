@@ -47,8 +47,11 @@
 <dword>
 <boolean>
 <string>
-<id, next>
-<id, x>
-<id, y>
-<id, xy>
-<id, z>
+<id, ex>
+<id, s>
+<id, i>
+<id, r>
+<id, c>
+<id, char>
+<id, b>
+<id, writeln>

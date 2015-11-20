@@ -1,5 +1,15 @@
-WHILE (next<>NIL)
-DO
-BEGIN x:=6;
-Y:=xy+z;
-END;
+program ex;
+ const s='abcdefg';
+var 
+ i:integer;
+ r:real;
+ c:char;b:boolean;
+begin
+ i:=1234;r:=1234.5678;
+ c:='#';b:=true;
+ writeln(i,i:6,i:3);
+ writeln(r,r:12:5,r:8:5);
+ writeln(c,c:5);
+ writeln(s,s:10,s:5);
+ writeln(b,b:5,b:3);
+end.
