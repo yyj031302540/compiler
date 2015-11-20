@@ -125,7 +125,7 @@ public class Lexer {
 					intScale = 36;
 					readch();
 				} else {
-					System.out.println("error：非法标识符，行号：" + line);
+					System.out.println("error：illegal identifier , line:" + line);
 				}
 
 			}
@@ -133,26 +133,27 @@ public class Lexer {
 
 		// 如果下一位不是小数点，即该数字不是小数
 		if (peek != '.') {
-			intResult = intResult * sign;
 			// 数组是否越界
 			boolean isOverflow = false;
-			if (sign > 0) {
-				if (intResult < 0) {
-					isOverflow = true;
-				} else {
-					int count = 0, temp = intResult;
 
-					// 通过将数的二进制右移到0为止，来判断有几位
-					for (; temp > 0; count++)
-						temp = temp >> 1;
-					if (count > 24)
-						isOverflow = true;
-				}
+			if (intResult < 0) {
+				isOverflow = true;
+			} else {
+				int count = 0, temp = intResult;
+
+				// 通过将数的二进制右移到0为止，来判断有几位
+				for (; temp > 0; count++)
+					temp = temp >> 1;
+				if (count > 24)
+					isOverflow = true;
 			}
-			if (sign > 0 && isOverflow) {
-				System.out.println("error:integer overflow! 行号：" + line);
+
+			if (isOverflow) {
+				System.out.println("error:integer overflow! line:" + line);
 				return null;
 			}
+			intResult = intResult * sign;
+			sign = 1;
 			return new Num(intResult);
 		} else {
 			// 如果下一位是小数点，即该数字为浮点数
@@ -166,6 +167,7 @@ public class Lexer {
 				floatScale = floatScale * intScale;
 			}
 			floatResult = floatResult * sign;
+			sign = 1;
 			return new Real(floatResult);
 		}
 	}
@@ -250,7 +252,7 @@ public class Lexer {
 					}
 
 					if (peek == '\n') {
-						System.out.println("error：字符串越行，行号：" + line);
+						System.out.println("error：string cross line ,line:" + line);
 						return null;
 					}
 
@@ -275,13 +277,13 @@ public class Lexer {
 				sign = 1;
 			}
 
-			// 判断是否是注释
+			// 如果接下去的也是"-"，那么是注释
 			if (readch('-')) {
 				readch();
-				StringBuffer b = new StringBuffer();
+				StringBuffer buffer = new StringBuffer();
 				for (;; readch()) {
 					if (peek != '\n' && peek != '\r') {
-						b.append(peek);
+						buffer.append(peek);
 						continue;
 					} else
 						break;
@@ -309,26 +311,26 @@ public class Lexer {
 		}
 
 		if (Character.isLetter(peek)) {
-			StringBuffer b = new StringBuffer();
+			StringBuffer buffer = new StringBuffer();
 			do {
-				b.append(peek);
+				buffer.append(peek);
 				readch();
 			} while (Character.isLetterOrDigit(peek));
-			String s = b.toString();
-			Word w = (Word) words.get(s);
-			if (w != null) {
-				return w;
+			String string = buffer.toString();
+			Word word = (Word) words.get(string);
+			if (word != null) {
+				return word;
 			}
-			if (s.length() > 32) {
-				System.out.println("error:标识符太长！行号:" + line);
+			if (string.length() > 32) {
+				System.out.println("error: identifier is too long !  line:" + line);
 				return null;
-			} else if (s.length() > 8) {
-				System.out.println("warnning:标识符不是有效长度！" + line);
+			} else if (string.length() > 8) {
+				System.out.println("warnning:identifier's length is not available !  line:" + line);
 			}
-			w = new Word(s, Tag.ID);
-			words.put(s, w);
-			listWord.add(w.toString(false));
-			return w;
+			word = new Word(string, Tag.ID);
+			words.put(string, word);
+			listWord.add(word.toString(false));
+			return word;
 		}
 		Token tok = new Token(peek);
 		peek = ' ';
